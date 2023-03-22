@@ -12,7 +12,8 @@
   <h1>Up and Running with Serverless Functions</h1>
   <hr>
   <button id="fetch-btn">Hello World Test</button>
-  <button id="fetch-pokedex-btn">Fetch Pokedex</button>
+  <button id="fetch-kanto-btn">Fetch Kanto Pokedex</button>
+  <button id="fetch-hoenn-btn">Fetch Hoenn Pokedex</button>
   <hr>
   <p id="response-output">Awaiting Response...</p>
   <hr>
@@ -20,20 +21,37 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const fetchBtn = document.getElementById('fetch-btn')
-      const fetchPokedexBtn = document.getElementById('fetch-pokedex-btn')
+      const fetchKantoBtn = document.getElementById('fetch-kanto-btn')
+      const fetchHoennBtn = document.getElementById('fetch-hoenn-btn')
       const responseText = document.getElementById('response-output')
 
       //Hello World
       fetchBtn.addEventListener('click', async () => {
         const response = await fetch('/.netlify/functions/hello-world')
-          .then(response => response.json()
-          )
-
-          // Pokedex Fetching
+          .then(response => response.json())
         responseText.innerText = JSON.stringify(response)
       })
-      fetchPokedexBtn.addEventListener('click', async () => {
-        const response = await fetch('/.netlify/functions/pokedex')
+
+      // Kanto Pokedex Fetching
+      fetchKantoBtn.addEventListener('click', async () => {
+        const response = await fetch('/.netlify/functions/pokedex', {
+          method: 'POST',
+          body: JSON.stringify({
+            region: 'kanto'
+          })
+        })
+          .then(response => response.json())
+        responseText.innerText = JSON.stringify(response)
+      })
+
+      // Hoenn Pokedex Fetchin
+      fetchHoennBtn.addEventListener('click', async () => {
+        const response = await fetch('/.netlify/functions/pokedex', {
+          method: 'POST',
+          body: JSON.stringify({
+            region: 'hoenn'
+          })
+        })
           .then(response => response.json())
 
         responseText.innerText = JSON.stringify(response)
